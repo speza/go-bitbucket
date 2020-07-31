@@ -130,7 +130,11 @@ func (p *PullRequests) buildPullRequestCommentBody(po *PullRequestsCommentOption
 		"raw": po.ContentRaw,
 	}
 
-	if po.Path != nil {
+	if po.ContentMarkup != "" {
+		body["content"].(map[string]interface{})["markup"] = po.ContentMarkup
+	}
+
+	if po.Path != "" {
 		body["inline"] = map[string]interface{}{
 			"path": po.Path,
 		}

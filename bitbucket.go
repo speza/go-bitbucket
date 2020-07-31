@@ -180,12 +180,13 @@ type PullRequestsOptions struct {
 }
 
 type PullRequestsCommentOptions struct {
-	Owner      string  `json:"owner"`
-	RepoSlug   string  `json:"repo_slug"`
-	ID         string  `json:"id"`
-	ContentRaw string  `json:"content_raw"`
-	Path       *string `json:"path"`
-	To         *int    `json:"to"`
+	Owner         string
+	RepoSlug      string
+	ID            string
+	ContentRaw    string
+	ContentMarkup string
+	Path          string
+	To            *int
 }
 
 type CommitsOptions struct {
