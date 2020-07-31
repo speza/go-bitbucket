@@ -179,6 +179,15 @@ type PullRequestsOptions struct {
 	Sort              string   `json:"sort"`
 }
 
+type PullRequestsCommentOptions struct {
+	Owner      string  `json:"owner"`
+	RepoSlug   string  `json:"repo_slug"`
+	ID         string  `json:"id"`
+	ContentRaw string  `json:"content_raw"`
+	Path       *string `json:"path"`
+	To         *int    `json:"to"`
+}
+
 type CommitsOptions struct {
 	Owner       string `json:"owner"`
 	RepoSlug    string `json:"repo_slug"`

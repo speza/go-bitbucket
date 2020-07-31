@@ -24,9 +24,7 @@ func TestProfile(t *testing.T) {
 
 	res, _ := c.User.Profile()
 
-	jsonMap := res.(map[string]interface{})
-
-	if jsonMap["username"] != user {
+	if res.Username != user {
 		t.Error("Cannot catch the Profile.username.")
 	}
 }

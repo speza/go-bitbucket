@@ -107,6 +107,12 @@ func (p *PullRequests) Decline(po *PullRequestsOptions) (interface{}, error) {
 	return p.c.execute("POST", urlStr, data)
 }
 
+func (p *PullRequests) CreateComment(po *PullRequestsCommentOptions) (interface{}, error) {
+	data := p.buildPullRequestCommentBody(po)
+	urlStr := p.c.GetApiBaseURL() + "/repositories/" + po.Owner + "/" + po.RepoSlug + "/pullrequests/" + po.ID + "/comments/"
+	return p.c.execute("POST", urlStr, data)
+}
+
 func (p *PullRequests) GetComments(po *PullRequestsOptions) (interface{}, error) {
 	urlStr := p.c.GetApiBaseURL() + "/repositories/" + po.Owner + "/" + po.RepoSlug + "/pullrequests/" + po.ID + "/comments/"
 	return p.c.execute("GET", urlStr, "")
@@ -115,6 +121,31 @@ func (p *PullRequests) GetComments(po *PullRequestsOptions) (interface{}, error)
 func (p *PullRequests) GetComment(po *PullRequestsOptions) (interface{}, error) {
 	urlStr := p.c.GetApiBaseURL() + "/repositories/" + po.Owner + "/" + po.RepoSlug + "/pullrequests/" + po.ID + "/comments/" + po.CommentID
 	return p.c.execute("GET", urlStr, "")
+}
+
+func (p *PullRequests) buildPullRequestCommentBody(po *PullRequestsCommentOptions) string {
+	body := map[string]interface{}{}
+
+	body["content"] = map[string]interface{}{
+		"raw": po.ContentRaw,
+	}
+
+	if po.Path != nil {
+		body["inline"] = map[string]interface{}{
+			"path": po.Path,
+		}
+		if po.To != nil {
+			body["inline"].(map[string]interface{})["to"] = po.To
+		}
+	}
+
+	data, err := json.Marshal(body)
+	if err != nil {
+		pp.Println(err)
+		os.Exit(9)
+	}
+
+	return string(data)
 }
 
 func (p *PullRequests) buildPullRequestBody(po *PullRequestsOptions) string {
